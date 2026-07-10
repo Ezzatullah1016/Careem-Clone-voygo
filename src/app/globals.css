@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Voygo glass design language ──────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-on-background antialiased;
+  }
+
+  .dark body {
+    @apply bg-charcoal text-white;
+  }
+}
+
+@layer components {
+  /* Level 2 glass container per DESIGN.md: 24px blur, light-catching edge. */
+  .glass-panel {
+    @apply border border-white/40 bg-white/60 shadow-glass backdrop-blur-glass;
+  }
+
+  .dark .glass-panel {
+    @apply border-white/10 bg-white/5;
+  }
+
+  /* Bottom sheet: primary interaction hub, slides over the map. */
+  .glass-sheet {
+    @apply rounded-t-sheet border-t border-white/40 bg-white/75 shadow-glass-top backdrop-blur-glass;
+  }
+
+  .dark .glass-sheet {
+    @apply border-white/10 bg-charcoal/75;
+  }
+
+  .grab-handle {
+    @apply mx-auto h-1 w-10 rounded-full bg-black/10;
+  }
+
+  .dark .grab-handle {
+    @apply bg-white/20;
+  }
+
+  /* Pill primary button with emerald glow. */
+  .btn-glow {
+    @apply rounded-full bg-primary-container text-on-primary-container shadow-glow transition-transform hover:scale-[1.02] active:scale-95;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

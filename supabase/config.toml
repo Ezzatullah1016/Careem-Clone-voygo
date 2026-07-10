@@ -1,0 +1,45 @@
+# Supabase local development configuration for Voygo.
+project_id = "voygo"
+
+[api]
+enabled = true
+port = 54321
+
+[db]
+port = 54322
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+
+# Phone OTP via Twilio (configure secrets with `supabase secrets set`).
+[auth.sms]
+enable_signup = true
+enable_confirmations = true
+
+[auth.sms.twilio]
+enabled = true
+account_sid = "env(TWILIO_ACCOUNT_SID)"
+message_service_sid = "env(TWILIO_MESSAGING_SERVICE_SID)"
+auth_token = "env(TWILIO_AUTH_TOKEN)"
+
+[auth.external.google]
+enabled = true
+client_id = "env(GOOGLE_OAUTH_CLIENT_ID)"
+secret = "env(GOOGLE_OAUTH_SECRET)"
+
+[auth.external.apple]
+enabled = true
+client_id = "env(APPLE_OAUTH_CLIENT_ID)"
+secret = "env(APPLE_OAUTH_SECRET)"
+
+[functions.notify]
+verify_jwt = false
+
+[functions.expire-offers]
+verify_jwt = false
+
+[functions.dispatch-scheduled]
+verify_jwt = false

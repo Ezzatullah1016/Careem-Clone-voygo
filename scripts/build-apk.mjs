@@ -83,4 +83,15 @@ if (!existsSync(built)) fail(`Gradle finished but ${built} is missing.`);
 mkdirSync(join(root, "dist"), { recursive: true });
 const out = join(root, "dist/voygo-debug.apk");
 copyFileSync(built, out);
-console.log(`\n✔ APK ready: ${out}\n  Install on a USB-connected phone: adb install -r "${out}"\n`);
+
+// Also stage it as a download on the site (gitignored; shipped by `vercel deploy`).
+// Only for builds that point at a server — the unconfigured APK is useless to share.
+if (appUrl) {
+  const downloads = join(root, "public/downloads");
+  mkdirSync(downloads, { recursive: true });
+  copyFileSync(built, join(downloads, "voygo.apk"));
+}
+
+console.log(`\n✔ APK ready: ${out}`);
+if (appUrl) console.log(`  After \`vercel deploy --prod\`, phones can download it from ${appUrl}/downloads/voygo.apk`);
+console.log(`  Or install on a USB-connected phone: adb install -r "${out}"\n`);

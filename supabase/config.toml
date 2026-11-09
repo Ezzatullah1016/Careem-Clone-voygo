@@ -14,20 +14,6 @@ enabled = true
 site_url = "http://localhost:3000"
 additional_redirect_urls = ["http://localhost:3000/auth/callback"]
 
-# Email sign-in sends a one-time code (typed into the Android app) plus a link (web).
-# The hosted project needs the same templates pasted into Auth → Email Templates.
-[auth.email]
-enable_signup = true
-otp_length = 6
-
-[auth.email.template.magic_link]
-subject = "Your Voygo sign-in code"
-content_path = "./supabase/templates/magic_link.html"
-
-[auth.email.template.confirmation]
-subject = "Welcome to Voygo — your code"
-content_path = "./supabase/templates/confirmation.html"
-
 # Phone OTP via Twilio (configure secrets with `supabase secrets set`).
 [auth.sms]
 enable_signup = true

@@ -19,3 +19,4 @@ capacitor/www/app-url.js
 .vercel
 .env*
 !.env.example
+public/downloads/*.apk

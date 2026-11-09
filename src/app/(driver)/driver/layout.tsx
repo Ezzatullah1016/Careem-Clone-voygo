@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleDollarSign, History, LayoutDashboard, Wallet } from "lucide-react";
+import { CircleDollarSign, History, LayoutDashboard, User, Wallet } from "lucide-react";
 import { MapProvider } from "@/components/map/map-provider";
 import { BottomNav } from "@/components/glass/bottom-nav";
 
@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { href: "/driver/earnings", label: "Earnings", icon: CircleDollarSign },
   { href: "/driver/history", label: "History", icon: History },
   { href: "/driver/wallet", label: "Wallet", icon: Wallet },
+  // Shared profile page: sign-out and the way back to this dashboard (the APK has no URL bar).
+  { href: "/profile", label: "Account", icon: User },
 ];
 
 export default function DriverLayout({ children }: { children: React.ReactNode }) {

@@ -11,6 +11,7 @@ import {
   LifeBuoy,
   Map as MapIcon,
   ShieldCheck,
+  Smartphone,
   Ticket,
   Users,
 } from "lucide-react";
@@ -28,6 +29,8 @@ const NAV = [
   { href: "/admin/payments", label: "Payments", icon: CreditCard },
   { href: "/admin/reports", label: "Reports", icon: FileText },
   { href: "/admin/support", label: "Support", icon: LifeBuoy },
+  // Rider side (booking, profile, sign-out); the APK has no URL bar to get there otherwise.
+  { href: "/home", label: "Rider app", icon: Smartphone },
 ];
 
 /** Admin shell: glass sidebar on desktop, scrollable top rail on mobile. */

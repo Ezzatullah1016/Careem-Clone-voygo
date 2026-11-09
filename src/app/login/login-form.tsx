@@ -44,7 +44,8 @@ export function LoginForm({ inAndroidApp, providers }: LoginFormProps) {
   const supabase = createClient();
   const router = useRouter();
   const params = useSearchParams();
-  const next = params.get("next") ?? "/home";
+  // Explicit ?next= (set by middleware when bouncing a deep link) wins; otherwise land by role.
+  const nextParam = params.get("next");
 
   const [step, setStep] = useState<Step>("password");
   const [mode, setMode] = useState<PasswordMode>("signin");
@@ -70,7 +71,9 @@ export function LoginForm({ inAndroidApp, providers }: LoginFormProps) {
     return () => clearTimeout(timer);
   }, [resendIn]);
 
-  const callbackUrl = () => `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+  // Without ?next, /auth/callback routes by role itself.
+  const callbackUrl = () =>
+    `${window.location.origin}/auth/callback${nextParam ? `?next=${encodeURIComponent(nextParam)}` : ""}`;
 
   function goTo(nextStep: Step) {
     setError(null);
@@ -78,9 +81,18 @@ export function LoginForm({ inAndroidApp, providers }: LoginFormProps) {
     setStep(nextStep);
   }
 
-  function signedIn() {
+  async function signedIn() {
+    // Same landing rules as /auth/callback: drivers → /driver, admins → /admin, riders → /home.
+    let dest = nextParam;
+    if (!dest) {
+      const { data: auth } = await supabase.auth.getUser();
+      const { data: profile } = auth.user
+        ? await supabase.from("profiles").select("role").eq("id", auth.user.id).single()
+        : { data: null };
+      dest = profile?.role === "admin" ? "/admin" : profile?.role === "driver" ? "/driver" : "/home";
+    }
     // Stay "pending" while navigating so the form can't be submitted twice.
-    router.push(next);
+    router.push(dest);
     router.refresh();
   }
 
@@ -154,7 +166,7 @@ export function LoginForm({ inAndroidApp, providers }: LoginFormProps) {
       setPending(false);
       return setError(error.message);
     }
-    signedIn();
+    await signedIn();
   }
 
   async function oauth(provider: "google" | "apple") {

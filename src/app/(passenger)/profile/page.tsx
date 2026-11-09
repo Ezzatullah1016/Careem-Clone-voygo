@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Bell, ChevronRight, LogOut, MapPin, Star, Ticket } from "lucide-react";
+import { Bell, Car, ChevronRight, LogOut, MapPin, ShieldCheck, Star, Ticket } from "lucide-react";
 import type { AppNotification } from "@/core/entities";
 import { repos } from "@/infrastructure/repositories";
 import { useAuth } from "@/hooks/use-auth";
@@ -81,6 +81,10 @@ export default function ProfilePage() {
         {/* Quick links */}
         <Card>
           <CardContent className="flex flex-col divide-y divide-black/5 p-2">
+            {(profile?.role === "driver" || profile?.role === "admin") && (
+              <ProfileLink href="/driver" icon={Car} label="Driver dashboard" />
+            )}
+            {profile?.role === "admin" && <ProfileLink href="/admin" icon={ShieldCheck} label="Admin dashboard" />}
             <ProfileLink href="/locations" icon={MapPin} label="Saved locations" />
             <ProfileLink href="/support" icon={Ticket} label="Support" />
           </CardContent>

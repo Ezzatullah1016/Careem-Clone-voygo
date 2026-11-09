@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+import { isAndroidAppUserAgent } from "@/lib/native-app";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,17 +17,26 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-  themeColor: "#00c853",
-};
+export async function generateViewport(): Promise<Viewport> {
+  // Android 15+ forces edge-to-edge. Inside the APK, viewport-fit=auto lets
+  // Capacitor pad the WebView clear of the system bars, so fixed headers
+  // don't slide under the status bar. Browsers keep the edge-to-edge layout.
+  const inAndroidApp = isAndroidAppUserAgent((await headers()).get("user-agent"));
+  return {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: inAndroidApp ? "auto" : "cover",
+    themeColor: "#00c853",
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-dvh font-sans">{children}</body>
+      {/* Extensions (e.g. Grammarly) inject attributes on <body> before hydration. */}
+      <body className="min-h-dvh font-sans" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

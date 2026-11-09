@@ -11,3 +11,7 @@ next-env.d.ts
 .supabase
 supabase/.temp
 .DS_Store
+
+# Android APK build
+dist/
+capacitor/www/app-url.js

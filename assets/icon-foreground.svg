@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Adaptive-icon foreground: keep artwork inside the central ~61% safe zone. -->
+  <defs>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="18" />
+    </filter>
+  </defs>
+  <polygon points="315,360 409,360 475,575 541,360 635,360 528,664 422,664" fill="#ffffff" />
+  <circle cx="676" cy="404" r="36" fill="#00c853" opacity="0.7" filter="url(#glow)" />
+  <circle cx="676" cy="404" r="34" fill="#00c853" />
+</svg>

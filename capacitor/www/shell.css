@@ -1,0 +1,89 @@
+/* Styles for the pages bundled inside the APK (not-configured + offline). */
+:root {
+  --bg: #f8f9fa;
+  --text: #191c1d;
+  --muted: #3c4a3c;
+  --accent: #00c853;
+  --code-bg: #edeeef;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191c1d;
+    --text: #f0f1f2;
+    --muted: #b9c4b8;
+    --code-bg: #2e3132;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 16px;
+  text-align: center;
+}
+.logo {
+  position: relative;
+  margin: 0;
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.dot {
+  position: absolute;
+  top: 12px;
+  right: -16px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(0, 200, 83, 0.6);
+}
+.tagline {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.message {
+  max-width: 320px;
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+code {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--code-bg);
+  font-size: 12px;
+}
+button {
+  margin-top: 8px;
+  padding: 14px 32px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+button:active {
+  transform: scale(0.97);
+}

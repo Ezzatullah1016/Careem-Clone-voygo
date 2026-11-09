@@ -52,8 +52,11 @@ export default function BookPage() {
         if (!res.ok) throw new Error("Fare estimation failed");
         const json = await res.json();
         booking.setQuote(json.estimates as FareOption[], json.route.polyline);
-        if (promoCode && json.promoApplied) booking.setPromoCode(json.promoApplied);
-        else if (promoCode && !json.promoApplied) setError("Promo code is not valid");
+        // Always mirror what the server applied, so an invalid code can't leave a stale promo behind.
+        booking.setPromoCode(json.promoApplied ?? null);
+        if (promoCode && !json.promoApplied) {
+          setError("That promo code isn't valid or has expired. You can still book without one.");
+        }
       } catch {
         setError("Could not fetch fares. Check your connection and retry.");
       } finally {
@@ -167,7 +170,7 @@ export default function BookPage() {
         )}
 
         {/* Ride options */}
-        <div className="flex max-h-[300px] flex-col gap-3 overflow-y-auto pr-1 no-scrollbar">
+        <div className="flex max-h-[min(300px,32dvh)] flex-col gap-3 overflow-y-auto pr-1 no-scrollbar">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-primary">
               <Loader2 className="h-8 w-8 animate-spin" />
@@ -237,10 +240,16 @@ export default function BookPage() {
           <div className="relative flex-1">
             <Tag className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary" />
             <Input
-              placeholder="Promo code"
-              className="h-11 pl-11 uppercase"
+              placeholder="Promo code (optional)"
+              className="h-11 pl-11 uppercase placeholder:normal-case"
               value={promoInput}
-              onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                const value = e.target.value.toUpperCase();
+                setPromoInput(value);
+                setError(null);
+                // Clearing the field drops an applied promo and re-quotes at full price.
+                if (!value && booking.promoCode) void fetchQuote();
+              }}
             />
           </div>
           <Button variant="outline" size="sm" className="h-11" onClick={() => void fetchQuote(promoInput)} disabled={!promoInput || loading}>

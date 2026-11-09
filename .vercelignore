@@ -1,0 +1,5 @@
+# Native Android shell and its build inputs are not part of the web deploy.
+android/
+capacitor/
+assets/
+dist/

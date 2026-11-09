@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voygo — Offline</title>
+    <link rel="stylesheet" href="shell.css" />
+    <!-- Written by scripts/build-apk.mjs: window.VOYGO_APP_URL -->
+    <script src="app-url.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1 class="logo">Voygo<span class="dot"></span></h1>
+      <p class="message">
+        Can't reach Voygo right now.<br />
+        Check your internet connection and try again.
+      </p>
+      <button id="retry" type="button">Try again</button>
+    </main>
+    <script>
+      document.getElementById("retry").addEventListener("click", function () {
+        var url = window.VOYGO_APP_URL;
+        if (url) window.location.replace(url);
+        else window.history.back();
+      });
+      // Come back on our own as soon as the connection returns.
+      window.addEventListener("online", function () {
+        if (window.VOYGO_APP_URL) window.location.replace(window.VOYGO_APP_URL);
+      });
+    </script>
+  </body>
+</html>

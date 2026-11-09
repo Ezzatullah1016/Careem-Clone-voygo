@@ -26,7 +26,8 @@ export function BottomSheet({ open = true, children, className }: BottomSheetPro
         >
           <div
             className={cn(
-              "glass-sheet flex w-full max-w-[600px] flex-col gap-4 rounded-t-card p-6",
+              // Cap height so the primary CTA at the bottom is never pushed off-screen.
+              "glass-sheet flex max-h-[85dvh] w-full max-w-[600px] flex-col gap-4 overflow-y-auto overscroll-contain rounded-t-card p-6 no-scrollbar",
               className
             )}
           >

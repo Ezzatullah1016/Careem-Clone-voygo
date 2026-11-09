@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Voygo</string>
+    <string name="title_activity_main">Voygo</string>
+    <string name="package_name">com.voygo.app</string>
+    <string name="custom_url_scheme">com.voygo.app</string>
+</resources>

@@ -1,3 +1,11 @@
+# Never upload local secrets or build output; env vars live in Vercel project settings.
+.env
+.env.local
+.env*.local
+.next/
+node_modules/
+*.tsbuildinfo
+
 # Native Android shell and its build inputs are not part of the web deploy.
 android/
 capacitor/
